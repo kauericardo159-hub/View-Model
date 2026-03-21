@@ -38,3 +38,5 @@ Se desejar rodar o projeto localmente:
 1. Clone o repositório:
    ```bash
    git clone [https://github.com/kauericardo159-hub/View-Model.git](https://github.com/kauericardo159-hub/View-Model.git)
+
+![Texto Alternativo](screenshots/preview.png)
