@@ -1,0 +1,224 @@
+:root { 
+    /* Paleta Profissional Dark Mode */
+    --accent: #00a8ff; 
+    --bg-dark: #121214;
+    --panel-bg: rgba(28, 28, 30, 0.85); 
+    --border-color: rgba(255, 255, 255, 0.1);
+    --text-main: #e1e1e6;
+    --text-dim: #a8a8b3;
+    
+    /* Cores de Eixo - Roblox Studio Style */
+    --axis-x: #ff4757;
+    --axis-y: #2ed573;
+    --axis-z: #1e90ff;
+    
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body { 
+    margin: 0; 
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    /* Fundo estilo Viewport de 3D */
+    background: radial-gradient(circle at center, #3d3d43 0%, #1a1a1c 100%);
+    color: var(--text-main); 
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; 
+    overflow: hidden; 
+    user-select: none;
+}
+
+/* Header / Top Bar */
+#ui { 
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
+    background: var(--panel-bg); 
+    padding: 10px 20px; 
+    z-index: 100; 
+    border-bottom: 1px solid var(--border-color); 
+    backdrop-filter: blur(20px); 
+    box-sizing: border-box; 
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-between;
+    align-items: center; 
+}
+
+h3 { 
+    margin: 0; 
+    font-size: 11px; 
+    color: var(--accent); 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+    font-weight: 800;
+}
+
+/* Botão de Upload Discreto */
+.upload-btn { 
+    background: rgba(255, 255, 255, 0.03); 
+    border: 1px solid var(--border-color); 
+    border-radius: 4px; 
+    padding: 4px 8px; 
+    transition: var(--transition); 
+}
+
+.upload-btn:hover { 
+    background: rgba(255, 255, 255, 0.08); 
+    border-color: var(--accent); 
+}
+
+input[type="file"] { 
+    color: var(--text-dim); 
+    cursor: pointer; 
+    font-size: 10px; 
+    width: 180px;
+}
+
+/* Painel de Ferramentas Lateral (Inspector) */
+#toolbar { 
+    position: fixed; 
+    right: 15px; 
+    top: 65px; 
+    width: 170px;
+    background: var(--panel-bg);
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(20px);
+    display: flex; 
+    flex-direction: column; 
+    gap: 16px; 
+    z-index: 90; 
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.tool-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.label-small {
+    font-size: 9px;
+    color: var(--text-dim);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Botões Estilizados */
+.tool-btn { 
+    background: #29292e; 
+    border: 1px solid var(--border-color); 
+    color: var(--text-main); 
+    padding: 10px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-size: 10px; 
+    font-weight: 700;
+    transition: var(--transition);
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.tool-btn:hover { 
+    background: #323238;
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.tool-btn:active {
+    transform: scale(0.96);
+}
+
+/* Grid de Rotação */
+.rotation-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+}
+
+/* Input de Rotação */
+input[type="number"] {
+    background: #121214;
+    border: 1px solid var(--border-color);
+    color: var(--accent);
+    padding: 8px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    outline: none;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type="number"]:focus {
+    border-color: var(--accent);
+    background: #000;
+}
+
+/* Botões de Eixo Coloridos */
+.btn-x { border-left: 4px solid var(--axis-x) !important; }
+.btn-y { border-left: 4px solid var(--axis-y) !important; }
+.btn-z { border-left: 4px solid var(--axis-z) !important; }
+
+.btn-x:hover { background: rgba(255, 71, 87, 0.15); }
+.btn-y:hover { background: rgba(46, 213, 115, 0.15); }
+.btn-z:hover { background: rgba(30, 144, 255, 0.15); }
+
+/* Barra de Status Inferior */
+#status-container { 
+    position: fixed; 
+    bottom: 25px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    pointer-events: none; 
+    z-index: 100; 
+}
+
+#status { 
+    background: rgba(18, 18, 20, 0.9); 
+    padding: 6px 14px; 
+    border-radius: 4px; 
+    border: 1px solid var(--border-color); 
+    font-size: 9px; 
+    font-weight: 800; 
+    color: var(--accent);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+#progress-bg { 
+    width: 180px; 
+    height: 3px; 
+    background: rgba(255,255,255,0.05); 
+    border-radius: 2px; 
+    overflow: hidden; 
+}
+
+#progress-bar { 
+    width: 0%; 
+    height: 100%; 
+    background: var(--accent); 
+    box-shadow: 0 0 15px var(--accent); 
+    transition: width 0.4s ease;
+}
+
+/* Ajustes para Celular */
+@media (max-width: 600px) {
+    #ui { padding: 8px 12px; }
+    #toolbar { 
+        width: 130px; 
+        right: 10px; 
+        top: 60px;
+        padding: 10px;
+    }
+    input[type="file"] { width: 120px; }
+    h3 { font-size: 9px; letter-spacing: 1px; }
+}

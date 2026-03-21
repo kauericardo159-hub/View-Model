@@ -3,31 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Universal Roblox Mesh Engine PRO</title>
+    <title>Universal Mesh Engine PRO</title>
     <link rel="icon" type="image/png" href="icon.png">
-    <style>
-        :root { --accent: #00a8ff; --bg: #0a0a0a; --panel: rgba(20, 20, 20, 0.8); }
-        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; }
-        
-        /* UI Estilizada */
-        #ui { position: fixed; top: 0; width: 100%; background: var(--panel); padding: 15px; z-index: 100; border-bottom: 2px solid var(--accent); backdrop-filter: blur(15px); box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
-        h3 { margin: 0 0 12px 0; font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 10px rgba(0,168,255,0.5); }
-        
-        .upload-btn { position: relative; width: 100%; max-width: 400px; background: #151515; border: 1px dashed var(--accent); border-radius: 8px; padding: 10px; transition: 0.3s; }
-        .upload-btn:hover { background: #1a1a1a; border-style: solid; box-shadow: 0 0 15px rgba(0,168,255,0.2); }
-        input[type="file"] { width: 100%; color: var(--accent); cursor: pointer; font-size: 12px; }
-
-        /* Barra de Progresso e Status */
-        #status-container { position: fixed; bottom: 30px; width: 100%; display: flex; flex-direction: column; align-items: center; pointer-events: none; z-index: 100; }
-        #status { background: rgba(0,0,0,0.85); padding: 8px 20px; border-radius: 30px; border: 1px solid var(--accent); font-size: 11px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; color: var(--accent); }
-        #progress-bg { width: 250px; height: 3px; background: #222; border-radius: 10px; overflow: hidden; }
-        #progress-bar { width: 0%; height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent); transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-
-        /* Controles Laterais */
-        #toolbar { position: fixed; right: 20px; top: 100px; display: flex; flex-direction: column; gap: 10px; z-index: 90; }
-        .tool-btn { background: var(--panel); border: 1px solid #333; color: white; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 10px; backdrop-filter: blur(10px); }
-        .tool-btn:hover { border-color: var(--accent); }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -39,13 +18,36 @@
     </div>
 
     <div id="toolbar">
-        <button class="tool-btn" onclick="toggleWireframe()">WIREFRAME</button>
-        <button class="tool-btn" onclick="resetView()">RESET VIEW</button>
+        
+        <div class="tool-group">
+            <span class="label-small">Visualização</span>
+            <button class="tool-btn" onclick="toggleWireframe()">WIREFRAME</button>
+        </div>
+
+        <div class="tool-group">
+            <span class="label-small">Rotação (Graus)</span>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <input type="number" id="rot-val" value="90" step="1" oninput="updateRotateStep(this.value)" placeholder="90°">
+                
+                <div class="rotation-grid">
+                    <button class="tool-btn btn-x" onclick="rotateModel('x')">ROTATE X</button>
+                    <button class="tool-btn btn-y" onclick="rotateModel('y')">ROTATE Y</button>
+                    <button class="tool-btn btn-z" onclick="rotateModel('z')">ROTATE Z</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tool-group" style="margin-top: 10px; border-top: 1px solid var(--border-color); padding-top: 10px;">
+            <span class="label-small">Info</span>
+            <div style="font-size: 9px; color: var(--text-dim);">Eixos: X(R) Y(G) Z(B)</div>
+        </div>
     </div>
 
     <div id="status-container">
-        <div id="status">Ready to Render</div>
-        <div id="progress-bg"><div id="progress-bar"></div></div>
+        <div id="status">Aguardando Arquivo...</div>
+        <div id="progress-bg">
+            <div id="progress-bar"></div>
+        </div>
     </div>
 
     <script type="importmap">
@@ -57,205 +59,6 @@
     }
     </script>
 
-    <script type="module">
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
-        // --- 1. AMBIENTE ESTILO BLENDER ---
-        const scene = new THREE.Scene();
-        // Céu com Gradiente (Blender Dark Theme)
-        scene.background = new THREE.Color(0x282828);
-        scene.fog = new THREE.Fog(0x282828, 1000, 10000);
-        
-        const camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 100000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.shadowMap.enabled = true;
-        document.body.appendChild(renderer.domElement);
-        
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-
-        // Grid Profissional
-        const grid = new THREE.GridHelper(200, 40, 0x444444, 0x222222);
-        scene.add(grid);
-
-        // Iluminação de Alta Qualidade
-        const ambient = new THREE.AmbientLight(0xffffff, 0.4);
-        scene.add(ambient);
-
-        const light1 = new THREE.DirectionalLight(0xffffff, 1.2);
-        light1.position.set(100, 200, 100);
-        scene.add(light1);
-
-        const light2 = new THREE.PointLight(0x00a8ff, 0.8);
-        light2.position.set(-100, 50, -100);
-        scene.add(light2);
-
-        // --- 2. WORKER OTIMIZADO (SEM BUG V1.00 E V4.01) ---
-        const workerCode = `
-            self.onmessage = function(e) {
-                try {
-                    const buffer = e.data;
-                    const view = new DataView(buffer);
-                    const decoder = new TextDecoder();
-                    const header = decoder.decode(buffer.slice(0, 12));
-
-                    // MESH V2.00 E V4.01 (BINÁRIO)
-                    if (header.includes("version 2") || header.includes("version 4")) {
-                        const isV4 = header.includes("version 4");
-                        const numVerts = view.getUint32(17, true);
-                        const numFaces = view.getUint32(21, true);
-                        const headerSize = view.getUint16(13, true);
-                        const vertSize = view.getUint8(15);
-                        
-                        const pos = new Float32Array(numVerts * 3);
-                        const norm = new Float32Array(numVerts * 3);
-                        const idx = new Uint32Array(numFaces * 3);
-
-                        let offset = 13 + headerSize;
-                        for(let i=0; i<numVerts; i++) {
-                            let p = offset + (i * vertSize);
-                            pos[i*3] = view.getFloat32(p, true);
-                            pos[i*3+1] = view.getFloat32(p+4, true);
-                            pos[i*3+2] = view.getFloat32(p+8, true);
-                            norm[i*3] = view.getFloat32(p+12, true);
-                            norm[i*3+1] = view.getFloat32(p+16, true);
-                            norm[i*3+2] = view.getFloat32(p+20, true);
-                        }
-                        
-                        let fOffset = offset + (numVerts * vertSize);
-                        for(let i=0; i<numFaces; i++) {
-                            let f = fOffset + (i * 12);
-                            idx[i*3] = view.getUint32(f, true);
-                            idx[i*3+1] = view.getUint32(f+4, true);
-                            idx[i*3+2] = view.getUint32(f+8, true);
-                        }
-                        self.postMessage({type: 'done', pos, norm, idx}, [pos.buffer, norm.buffer, idx.buffer]);
-                    } 
-
-                    // MESH V1.00 (CORREÇÃO DE UV E BLOCOS)
-                    else if (header.includes("version 1.")) {
-                        const text = decoder.decode(buffer);
-                        // Regex estrita para capturar blocos [x,y,z]
-                        const blockRegex = /\\[(.*?)\\]/g;
-                        const allValues = [];
-                        let match;
-                        
-                        while ((match = blockRegex.exec(text)) !== null) {
-                            const coords = match[1].split(',').map(v => parseFloat(v.trim()));
-                            allValues.push(...coords);
-                        }
-
-                        // V1: Cada vértice = 3 blocos (Posição, Normal, UV) = 9 valores total
-                        const vertCount = Math.floor(allValues.length / 9);
-                        const pos = new Float32Array(vertCount * 3);
-                        const norm = new Float32Array(vertCount * 3);
-
-                        for(let i=0; i<vertCount; i++) {
-                            const base = i * 9;
-                            // Posição (Bloco 1)
-                            pos[i*3]   = allValues[base];
-                            pos[i*3+1] = allValues[base+1];
-                            pos[i*3+2] = allValues[base+2];
-                            // Normal (Bloco 2)
-                            norm[i*3]   = allValues[base+3];
-                            norm[i*3+1] = allValues[base+4];
-                            norm[i*3+2] = allValues[base+5];
-                        }
-                        self.postMessage({type: 'done', pos, norm}, [pos.buffer, norm.buffer]);
-                    }
-                    else { throw new Error("Format not supported yet."); }
-                } catch(e) { self.postMessage({type: 'error', msg: e.message}); }
-            };
-        `;
-
-        const blob = new Blob([workerCode], { type: 'application/javascript' });
-        let worker;
-        let currentMesh;
-
-        // --- 3. LÓGICA DE CARREGAMENTO ---
-        const fileInput = document.getElementById('file');
-        const statusText = document.getElementById('status');
-        const progressBar = document.getElementById('progress-bar');
-
-        fileInput.onchange = async (e) => {
-            const file = e.target.files[0];
-            if(!file) return;
-
-            statusText.innerText = `ENGINEERING: ${file.name}`;
-            progressBar.style.width = "30%";
-
-            const buffer = await file.arrayBuffer();
-            if (worker) worker.terminate();
-            worker = new Worker(URL.createObjectURL(blob));
-
-            worker.onmessage = (msg) => {
-                const data = msg.data;
-                if(data.type === 'error') {
-                    statusText.innerText = "CRITICAL ERROR";
-                    statusText.style.color = "#ff4444";
-                } else {
-                    renderMesh(data);
-                }
-            };
-            worker.postMessage(buffer, [buffer]);
-        };
-
-        function renderMesh(data) {
-            if(currentMesh) scene.remove(currentMesh);
-
-            const geometry = new THREE.BufferGeometry();
-            geometry.setAttribute('position', new THREE.BufferAttribute(data.pos, 3));
-            if(data.norm) geometry.setAttribute('normal', new THREE.BufferAttribute(data.norm, 3));
-            if(data.idx) geometry.setIndex(new THREE.BufferAttribute(data.idx, 1));
-            
-            if(!data.norm) geometry.computeVertexNormals();
-            geometry.center();
-
-            const material = new THREE.MeshStandardMaterial({ 
-                color: 0x999999, 
-                metalness: 0.5, 
-                roughness: 0.2, 
-                side: THREE.DoubleSide 
-            });
-
-            currentMesh = new THREE.Mesh(geometry, material);
-            currentMesh.rotation.x = -Math.PI / 2;
-            scene.add(currentMesh);
-
-            // Ajuste de Câmera (Zoom Extents)
-            geometry.computeBoundingSphere();
-            const r = geometry.boundingSphere.radius;
-            camera.position.set(r*1.5, r*1.5, r*1.5);
-            controls.target.set(0,0,0);
-            
-            progressBar.style.width = "100%";
-            statusText.innerText = "RENDER COMPLETE";
-            statusText.style.color = "#00ff88";
-        }
-
-        // Funções Globais
-        window.toggleWireframe = () => {
-            if(currentMesh) currentMesh.material.wireframe = !currentMesh.material.wireframe;
-        };
-        window.resetView = () => {
-            controls.reset();
-        };
-
-        function animate() {
-            requestAnimationFrame(animate);
-            controls.update();
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        window.onresize = () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        };
-    </script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>
