@@ -21,3 +21,17 @@ yarn-error.log*
 # Arquivos de backup de editores
 *.bak
 *.swp
+
+# --- Adições para o Mesh Engine ---
+
+# Arquivos de log do navegador e dump de memória
+*.log
+*.stackdump
+
+# Arquivos temporários de exportação (caso você teste localmente)
+*.tmp
+*.temp
+
+# Bloquear arquivos de cache de miniaturas (Windows/Mac)
+ehthumbs.db
+Icon?
