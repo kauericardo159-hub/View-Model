@@ -3,28 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Universal Roblox Mesh Viewer - PRO</title>
+    <title>Universal Roblox Mesh Engine PRO</title>
+    <link rel="icon" type="image/png" href="icon.png">
     <style>
-        body { margin: 0; background: #111; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; }
-        #ui { position: fixed; top: 0; width: 100%; background: rgba(15,15,15,0.95); padding: 15px; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.5); box-sizing: border-box; border-bottom: 2px solid #00a8ff; backdrop-filter: blur(5px); }
-        h3 { margin: 0 0 10px 0; font-size: 16px; color: #00a8ff; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
-        input { width: 100%; background: #222; color: #00a8ff; border: 1px solid #00a8ff; padding: 10px; border-radius: 6px; box-sizing: border-box; cursor: pointer; }
-        input::file-selector-button { background: #00a8ff; color: #111; border: none; padding: 8px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-right: 10px; }
-        #status { position: fixed; bottom: 15px; width: 100%; text-align: center; font-size: 13px; font-weight: bold; color: #bbb; pointer-events: none; text-shadow: 1px 1px 3px black; background: rgba(0,0,0,0.6); padding: 8px 0; transition: color 0.3s; }
-        #info { font-size: 11px; color: #888; text-align: center; margin-top: 8px; }
-        #loading-bar-container { display: none; width: 80%; height: 4px; background: #333; margin: 10px auto 0 auto; border-radius: 2px; overflow: hidden; }
-        #loading-bar { width: 0%; height: 100%; background: #00a8ff; transition: width 0.2s; }
+        :root { --accent: #00a8ff; --bg: #0a0a0a; --panel: rgba(20, 20, 20, 0.8); }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; }
+        
+        /* UI Estilizada */
+        #ui { position: fixed; top: 0; width: 100%; background: var(--panel); padding: 15px; z-index: 100; border-bottom: 2px solid var(--accent); backdrop-filter: blur(15px); box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
+        h3 { margin: 0 0 12px 0; font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 0 10px rgba(0,168,255,0.5); }
+        
+        .upload-btn { position: relative; width: 100%; max-width: 400px; background: #151515; border: 1px dashed var(--accent); border-radius: 8px; padding: 10px; transition: 0.3s; }
+        .upload-btn:hover { background: #1a1a1a; border-style: solid; box-shadow: 0 0 15px rgba(0,168,255,0.2); }
+        input[type="file"] { width: 100%; color: var(--accent); cursor: pointer; font-size: 12px; }
+
+        /* Barra de Progresso e Status */
+        #status-container { position: fixed; bottom: 30px; width: 100%; display: flex; flex-direction: column; align-items: center; pointer-events: none; z-index: 100; }
+        #status { background: rgba(0,0,0,0.85); padding: 8px 20px; border-radius: 30px; border: 1px solid var(--accent); font-size: 11px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; color: var(--accent); }
+        #progress-bg { width: 250px; height: 3px; background: #222; border-radius: 10px; overflow: hidden; }
+        #progress-bar { width: 0%; height: 100%; background: var(--accent); box-shadow: 0 0 10px var(--accent); transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* Controles Laterais */
+        #toolbar { position: fixed; right: 20px; top: 100px; display: flex; flex-direction: column; gap: 10px; z-index: 90; }
+        .tool-btn { background: var(--panel); border: 1px solid #333; color: white; padding: 10px; border-radius: 5px; cursor: pointer; font-size: 10px; backdrop-filter: blur(10px); }
+        .tool-btn:hover { border-color: var(--accent); }
     </style>
 </head>
 <body>
 
     <div id="ui">
-        <h3>Visualizador de Mesh PRO</h3>
-        <input type="file" id="file" accept=".mesh">
-        <div id="info">Processamento em Segundo Plano (Suporta 100MB+)</div>
-        <div id="loading-bar-container"><div id="loading-bar"></div></div>
+        <h3>Universal Mesh Engine</h3>
+        <div class="upload-btn">
+            <input type="file" id="file" accept=".mesh,.rbxm">
+        </div>
     </div>
-    <div id="status">Aguardando arquivo...</div>
+
+    <div id="toolbar">
+        <button class="tool-btn" onclick="toggleWireframe()">WIREFRAME</button>
+        <button class="tool-btn" onclick="resetView()">RESET VIEW</button>
+    </div>
+
+    <div id="status-container">
+        <div id="status">Ready to Render</div>
+        <div id="progress-bg"><div id="progress-bar"></div></div>
+    </div>
 
     <script type="importmap">
     { 
@@ -39,228 +61,201 @@
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-        // --- 1. CONFIGURAÇÃO DO AMBIENTE ---
+        // --- 1. AMBIENTE ESTILO BLENDER ---
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x151515);
-        // Adiciona uma grade no chão para melhor percepção de espaço
-        const gridHelper = new THREE.GridHelper(100, 100, 0x444444, 0x222222);
-        gridHelper.position.y = -5;
-        scene.add(gridHelper);
+        // Céu com Gradiente (Blender Dark Theme)
+        scene.background = new THREE.Color(0x282828);
+        scene.fog = new THREE.Fog(0x282828, 1000, 10000);
         
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 10000);
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 100000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.shadowMap.enabled = true;
         document.body.appendChild(renderer.domElement);
         
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        
-        // --- 2. ILUMINAÇÃO ESTILO ESTÚDIO ---
-        scene.add(new THREE.AmbientLight(0xffffff, 0.4));
-        const keyLight = new THREE.DirectionalLight(0xffffff, 1.0); // Luz principal
-        keyLight.position.set(50, 100, 50);
-        scene.add(keyLight);
-        const fillLight = new THREE.DirectionalLight(0x90b0d0, 0.6); // Luz de preenchimento (fria)
-        fillLight.position.set(-50, 20, 50);
-        scene.add(fillLight);
-        const backLight = new THREE.DirectionalLight(0xffddaa, 0.5); // Contra-luz (quente)
-        backLight.position.set(0, 50, -100);
-        scene.add(backLight);
 
-        // --- 3. CÓDIGO DO WEB WORKER (Lê arquivos sem travar a tela) ---
+        // Grid Profissional
+        const grid = new THREE.GridHelper(200, 40, 0x444444, 0x222222);
+        scene.add(grid);
+
+        // Iluminação de Alta Qualidade
+        const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambient);
+
+        const light1 = new THREE.DirectionalLight(0xffffff, 1.2);
+        light1.position.set(100, 200, 100);
+        scene.add(light1);
+
+        const light2 = new THREE.PointLight(0x00a8ff, 0.8);
+        light2.position.set(-100, 50, -100);
+        scene.add(light2);
+
+        // --- 2. WORKER OTIMIZADO (SEM BUG V1.00 E V4.01) ---
         const workerCode = `
             self.onmessage = function(e) {
                 try {
                     const buffer = e.data;
                     const view = new DataView(buffer);
                     const decoder = new TextDecoder();
-                    const headerText = decoder.decode(buffer.slice(0, 12));
+                    const header = decoder.decode(buffer.slice(0, 12));
 
-                    if (headerText.includes("version 3") || headerText.includes("version 4") || headerText.includes("version 5")) {
-                        throw new Error("Versões 3, 4 e 5 usam compressão LZ4. Não suportado no navegador sem descompressão.");
-                    }
-                    
-                    else if (headerText.includes("version 2.00")) {
-                        const headerSize = view.getUint16(13, true); 
-                        const vertexSize = view.getUint8(15);        
-                        const faceSize = view.getUint8(16);          
-                        const numVerts = view.getUint32(17, true);   
-                        const numFaces = view.getUint32(21, true);   
+                    // MESH V2.00 E V4.01 (BINÁRIO)
+                    if (header.includes("version 2") || header.includes("version 4")) {
+                        const isV4 = header.includes("version 4");
+                        const numVerts = view.getUint32(17, true);
+                        const numFaces = view.getUint32(21, true);
+                        const headerSize = view.getUint16(13, true);
+                        const vertSize = view.getUint8(15);
+                        
+                        const pos = new Float32Array(numVerts * 3);
+                        const norm = new Float32Array(numVerts * 3);
+                        const idx = new Uint32Array(numFaces * 3);
 
-                        self.postMessage({ type: 'progress', msg: 'Processando v2.00: ' + numVerts.toLocaleString() + ' vértices...' });
-
-                        const positions = new Float32Array(numVerts * 3);
-                        const normals = new Float32Array(numVerts * 3);
-                        const indices = new Uint32Array(numFaces * 3);
-
-                        let dataOffset = 13 + headerSize;
-
-                        for (let i = 0; i < numVerts; i++) {
-                            let p = dataOffset + (i * vertexSize);
-                            let idx = i * 3;
-                            positions[idx] = view.getFloat32(p, true);
-                            positions[idx+1] = view.getFloat32(p+4, true);
-                            positions[idx+2] = view.getFloat32(p+8, true);
-                            
-                            normals[idx] = view.getFloat32(p+12, true);
-                            normals[idx+1] = view.getFloat32(p+16, true);
-                            normals[idx+2] = view.getFloat32(p+20, true);
+                        let offset = 13 + headerSize;
+                        for(let i=0; i<numVerts; i++) {
+                            let p = offset + (i * vertSize);
+                            pos[i*3] = view.getFloat32(p, true);
+                            pos[i*3+1] = view.getFloat32(p+4, true);
+                            pos[i*3+2] = view.getFloat32(p+8, true);
+                            norm[i*3] = view.getFloat32(p+12, true);
+                            norm[i*3+1] = view.getFloat32(p+16, true);
+                            norm[i*3+2] = view.getFloat32(p+20, true);
                         }
-
-                        dataOffset += (numVerts * vertexSize);
-
-                        for (let i = 0; i < numFaces; i++) {
-                            let f = dataOffset + (i * faceSize);
-                            let idx = i * 3;
-                            indices[idx] = view.getUint32(f, true);
-                            indices[idx+1] = view.getUint32(f+4, true);
-                            indices[idx+2] = view.getUint32(f+8, true);
+                        
+                        let fOffset = offset + (numVerts * vertSize);
+                        for(let i=0; i<numFaces; i++) {
+                            let f = fOffset + (i * 12);
+                            idx[i*3] = view.getUint32(f, true);
+                            idx[i*3+1] = view.getUint32(f+4, true);
+                            idx[i*3+2] = view.getUint32(f+8, true);
                         }
-
-                        // Transfere a memória direto para a placa de vídeo (ZERO cópias = rápido)
-                        self.postMessage({ type: 'done', version: 2, positions, normals, indices }, [positions.buffer, normals.buffer, indices.buffer]);
+                        self.postMessage({type: 'done', pos, norm, idx}, [pos.buffer, norm.buffer, idx.buffer]);
                     } 
-                    
-                    else if (headerText.includes("version 1.")) {
-                        self.postMessage({ type: 'progress', msg: 'Lendo formato v1.xx. Extraindo coordenadas...' });
+
+                    // MESH V1.00 (CORREÇÃO DE UV E BLOCOS)
+                    else if (header.includes("version 1.")) {
                         const text = decoder.decode(buffer);
-                        
-                        // Parser otimizado para não estourar a RAM com regex.match em arquivos gigantes
-                        const coords = [];
-                        const regex = /-?\\d+(\\.\\d+)?(e[-+]?\\d+)?/g;
+                        // Regex estrita para capturar blocos [x,y,z]
+                        const blockRegex = /\\[(.*?)\\]/g;
+                        const allValues = [];
                         let match;
-                        let count = 0;
                         
-                        while ((match = regex.exec(text)) !== null) {
-                            count++;
-                            if(count > 3) { // Ignora cabeçalho
-                                coords.push(parseFloat(match[0]));
-                            }
+                        while ((match = blockRegex.exec(text)) !== null) {
+                            const coords = match[1].split(',').map(v => parseFloat(v.trim()));
+                            allValues.push(...coords);
                         }
 
-                        const positions = new Float32Array(coords);
-                        self.postMessage({ type: 'done', version: 1, positions }, [positions.buffer]);
-                    } 
-                    else {
-                        throw new Error("Formato de arquivo não reconhecido.");
+                        // V1: Cada vértice = 3 blocos (Posição, Normal, UV) = 9 valores total
+                        const vertCount = Math.floor(allValues.length / 9);
+                        const pos = new Float32Array(vertCount * 3);
+                        const norm = new Float32Array(vertCount * 3);
+
+                        for(let i=0; i<vertCount; i++) {
+                            const base = i * 9;
+                            // Posição (Bloco 1)
+                            pos[i*3]   = allValues[base];
+                            pos[i*3+1] = allValues[base+1];
+                            pos[i*3+2] = allValues[base+2];
+                            // Normal (Bloco 2)
+                            norm[i*3]   = allValues[base+3];
+                            norm[i*3+1] = allValues[base+4];
+                            norm[i*3+2] = allValues[base+5];
+                        }
+                        self.postMessage({type: 'done', pos, norm}, [pos.buffer, norm.buffer]);
                     }
-                } catch (err) {
-                    self.postMessage({ type: 'error', msg: err.message });
-                }
+                    else { throw new Error("Format not supported yet."); }
+                } catch(e) { self.postMessage({type: 'error', msg: e.message}); }
             };
         `;
 
-        // Cria o Worker a partir do código acima
         const blob = new Blob([workerCode], { type: 'application/javascript' });
         let worker;
+        let currentMesh;
 
-        // --- 4. GERENCIADOR DE ARQUIVO E RENDERIZAÇÃO ---
-        const status = document.getElementById('status');
-        const barContainer = document.getElementById('loading-bar-container');
-        const bar = document.getElementById('loading-bar');
+        // --- 3. LÓGICA DE CARREGAMENTO ---
+        const fileInput = document.getElementById('file');
+        const statusText = document.getElementById('status');
+        const progressBar = document.getElementById('progress-bar');
 
-        document.getElementById('file').addEventListener('change', async (e) => {
+        fileInput.onchange = async (e) => {
             const file = e.target.files[0];
             if(!file) return;
 
-            status.style.color = "#00a8ff";
-            status.innerText = "Enviando para a thread de processamento...";
-            barContainer.style.display = "block";
-            bar.style.width = "30%";
+            statusText.innerText = `ENGINEERING: ${file.name}`;
+            progressBar.style.width = "30%";
 
-            // Lê o arquivo como ArrayBuffer
             const buffer = await file.arrayBuffer();
-
-            // Limpa mesh anterior
-            scene.children = scene.children.filter(c => !(c instanceof THREE.Mesh));
-
-            // Inicia o Worker
             if (worker) worker.terminate();
             worker = new Worker(URL.createObjectURL(blob));
 
-            worker.onmessage = function(e) {
-                const data = e.data;
-
-                if (data.type === 'progress') {
-                    status.innerText = data.msg;
-                    bar.style.width = "60%";
-                } 
-                else if (data.type === 'error') {
-                    status.style.color = "#ff4444";
-                    status.innerText = "Erro: " + data.msg;
-                    barContainer.style.display = "none";
-                } 
-                else if (data.type === 'done') {
-                    status.innerText = "Construindo geometria 3D...";
-                    bar.style.width = "90%";
-                    
-                    const geometry = new THREE.BufferGeometry();
-
-                    if (data.version === 2) {
-                        geometry.setAttribute('position', new THREE.BufferAttribute(data.positions, 3));
-                        geometry.setAttribute('normal', new THREE.BufferAttribute(data.normals, 3));
-                        geometry.setIndex(new THREE.BufferAttribute(data.indices, 1));
-                    } else if (data.version === 1) {
-                        geometry.setAttribute('position', new THREE.BufferAttribute(data.positions, 3));
-                        geometry.computeVertexNormals();
-                    }
-
-                    // --- MATERIAL E POSICIONAMENTO ---
-                    geometry.center(); // Centraliza o pivô perfeitamente
-                    
-                    const material = new THREE.MeshStandardMaterial({ 
-                        color: 0xe0e0e0, 
-                        roughness: 0.3,
-                        metalness: 0.1,
-                        side: THREE.DoubleSide
-                    });
-                    
-                    const mesh = new THREE.Mesh(geometry, material);
-                    mesh.rotation.x = -Math.PI / 2; // Arruma a orientação nativa do Roblox
-                    scene.add(mesh);
-
-                    // Auto-foco inteligente e suave
-                    geometry.computeBoundingBox();
-                    geometry.computeBoundingSphere();
-                    const radius = geometry.boundingSphere.radius;
-                    
-                    // Alinha o grid com a base do objeto
-                    gridHelper.position.y = geometry.boundingBox.min.z; // min.z por conta da rotação X
-
-                    camera.position.set(radius * 1.5, radius * 1.5, radius * 2);
-                    camera.near = radius * 0.01;
-                    camera.far = radius * 100;
-                    camera.updateProjectionMatrix();
-                    
-                    controls.target.set(0, 0, 0);
-                    controls.update();
-
-                    status.innerText = `Sucesso! Malha carregada e otimizada.`;
-                    status.style.color = "#00ff88";
-                    bar.style.width = "100%";
-                    setTimeout(() => { barContainer.style.display = "none"; }, 1000);
+            worker.onmessage = (msg) => {
+                const data = msg.data;
+                if(data.type === 'error') {
+                    statusText.innerText = "CRITICAL ERROR";
+                    statusText.style.color = "#ff4444";
+                } else {
+                    renderMesh(data);
                 }
             };
-
-            // Envia o ArrayBuffer para o worker (transferência de memória ultra-rápida)
             worker.postMessage(buffer, [buffer]);
-        });
+        };
 
-        // --- 5. LOOP DE RENDERIZAÇÃO ---
-        function animate() { 
-            requestAnimationFrame(animate); 
-            controls.update(); 
-            renderer.render(scene, camera); 
+        function renderMesh(data) {
+            if(currentMesh) scene.remove(currentMesh);
+
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(data.pos, 3));
+            if(data.norm) geometry.setAttribute('normal', new THREE.BufferAttribute(data.norm, 3));
+            if(data.idx) geometry.setIndex(new THREE.BufferAttribute(data.idx, 1));
+            
+            if(!data.norm) geometry.computeVertexNormals();
+            geometry.center();
+
+            const material = new THREE.MeshStandardMaterial({ 
+                color: 0x999999, 
+                metalness: 0.5, 
+                roughness: 0.2, 
+                side: THREE.DoubleSide 
+            });
+
+            currentMesh = new THREE.Mesh(geometry, material);
+            currentMesh.rotation.x = -Math.PI / 2;
+            scene.add(currentMesh);
+
+            // Ajuste de Câmera (Zoom Extents)
+            geometry.computeBoundingSphere();
+            const r = geometry.boundingSphere.radius;
+            camera.position.set(r*1.5, r*1.5, r*1.5);
+            controls.target.set(0,0,0);
+            
+            progressBar.style.width = "100%";
+            statusText.innerText = "RENDER COMPLETE";
+            statusText.style.color = "#00ff88";
+        }
+
+        // Funções Globais
+        window.toggleWireframe = () => {
+            if(currentMesh) currentMesh.material.wireframe = !currentMesh.material.wireframe;
+        };
+        window.resetView = () => {
+            controls.reset();
+        };
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
         }
         animate();
 
-        window.addEventListener('resize', () => {
+        window.onresize = () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+        };
     </script>
 </body>
 </html>
