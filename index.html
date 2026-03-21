@@ -22,6 +22,12 @@
         <div class="tool-group">
             <span class="label-small">Visualização</span>
             <button class="tool-btn" onclick="toggleWireframe()">WIREFRAME</button>
+            
+            <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 4px; border: 1px solid var(--border-color);">
+                <span class="label-small" style="font-size: 8px; flex-shrink: 0;">COR:</span>
+                <input type="color" id="color-picker" value="#999999" oninput="changeModelColor(this.value)" 
+                       style="width: 100%; height: 20px; border: none; background: none; cursor: pointer; padding: 0;">
+            </div>
         </div>
 
         <div class="tool-group">
@@ -37,9 +43,21 @@
             </div>
         </div>
 
-        <div class="tool-group" style="margin-top: 10px; border-top: 1px solid var(--border-color); padding-top: 10px;">
-            <span class="label-small">Info</span>
-            <div style="font-size: 9px; color: var(--text-dim);">Eixos: X(R) Y(G) Z(B)</div>
+        <div class="tool-group export-group">
+            <span class="label-small">Exportar</span>
+            <div class="export-grid">
+                <button class="tool-btn export-btn" onclick="exportModel('obj')">OBJ</button>
+                <button class="tool-btn export-btn" onclick="exportModel('gltf')">GLTF</button>
+            </div>
+        </div>
+
+        <div class="tool-group" style="margin-top: 5px; border-top: 1px solid var(--border-color); padding-top: 10px;">
+            <span class="label-small">Info Eixos</span>
+            <div style="font-size: 9px; color: var(--text-dim); display: flex; gap: 8px; font-weight: 800;">
+                <span style="color: var(--axis-x)">X</span>
+                <span style="color: var(--axis-y)">Y</span>
+                <span style="color: var(--axis-z)">Z</span>
+            </div>
         </div>
     </div>
 
@@ -58,18 +76,7 @@
         } 
     }
     </script>
-
+    
     <script type="module" src="main.js"></script>
-
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Nexus: PWA Ativo'))
-                    .catch(err => console.error('Nexus: Erro PWA', err));
-            });
-        }
-    </script>
-
 </body>
 </html>

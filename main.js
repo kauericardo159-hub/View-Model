@@ -1,16 +1,18 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 
 // --- CONFIGURAÇÃO DE AMBIENTE ---
 const scene = new THREE.Scene();
 
-// Céu de Dia (Gradiente Blender/Prisma)
+// Céu de Dia
 const canvas = document.createElement('canvas');
 canvas.width = 2; canvas.height = 512;
 const context = canvas.getContext('2d');
 const gradient = context.createLinearGradient(0, 0, 0, 512);
-gradient.addColorStop(0, '#5da2ff');   // Topo
-gradient.addColorStop(1, '#e0f0ff');   // Horizonte
+gradient.addColorStop(0, '#5da2ff');   
+gradient.addColorStop(1, '#e0f0ff');   
 context.fillStyle = gradient;
 context.fillRect(0, 0, 2, 512);
 scene.background = new THREE.CanvasTexture(canvas);
@@ -37,18 +39,53 @@ const sun = new THREE.DirectionalLight(0xffffff, 1.2);
 sun.position.set(50, 100, 50);
 scene.add(sun);
 
-// --- LÓGICA DE ROTAÇÃO (ESTILO ROBLOX) ---
-let rotateStep = 90; // Valor padrão
-
-// Função para atualizar o valor da rotação via input
-window.updateRotateStep = (val) => {
-    rotateStep = parseFloat(val) || 0;
+// --- SISTEMA DE COR E MATERIAL ---
+window.changeModelColor = (colorHex) => {
+    if (currentMesh) {
+        currentMesh.material.color.set(colorHex);
+    }
 };
+
+// --- SISTEMA DE EXPORTAÇÃO ---
+window.exportModel = (format) => {
+    if (!currentMesh) {
+        alert("Carregue um modelo primeiro!");
+        return;
+    }
+
+    statusText.innerText = `EXPORTANDO ${format.toUpperCase()}...`;
+    
+    if (format === 'obj') {
+        const exporter = new OBJExporter();
+        const result = exporter.parse(currentMesh);
+        saveString(result, 'model.obj');
+    } 
+    else if (format === 'gltf') {
+        const exporter = new GLTFExporter();
+        exporter.parse(currentMesh, (result) => {
+            const output = JSON.stringify(result, null, 2);
+            saveString(output, 'model.gltf');
+        }, { binary: false });
+    }
+    
+    statusText.innerText = "EXPORTAÇÃO CONCLUÍDA";
+};
+
+function saveString(text, filename) {
+    const blob = new Blob([text], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+}
+
+// --- LÓGICA DE ROTAÇÃO ---
+let rotateStep = 90;
+window.updateRotateStep = (val) => { rotateStep = parseFloat(val) || 0; };
 
 window.rotateModel = (axis) => {
     if (!currentMesh) return;
     const rad = THREE.MathUtils.degToRad(rotateStep);
-    
     if (axis === 'x') currentMesh.rotation.x += rad;
     if (axis === 'y') currentMesh.rotation.y += rad;
     if (axis === 'z') currentMesh.rotation.z += rad;
@@ -143,7 +180,7 @@ function renderMesh(data) {
 
     const material = new THREE.MeshStandardMaterial({ color: 0x999999, metalness: 0.3, roughness: 0.4, side: THREE.DoubleSide });
     currentMesh = new THREE.Mesh(geometry, material);
-    currentMesh.rotation.x = -Math.PI / 2; // Correção inicial Roblox
+    currentMesh.rotation.x = -Math.PI / 2; 
     scene.add(currentMesh);
 
     geometry.computeBoundingSphere();

@@ -20,7 +20,6 @@ body {
     padding: 0;
     width: 100vw;
     height: 100vh;
-    /* Fundo estilo Viewport de 3D */
     background: radial-gradient(circle at center, #3d3d43 0%, #1a1a1c 100%);
     color: var(--text-main); 
     font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; 
@@ -54,7 +53,6 @@ h3 {
     font-weight: 800;
 }
 
-/* Botão de Upload Discreto */
 .upload-btn { 
     background: rgba(255, 255, 255, 0.03); 
     border: 1px solid var(--border-color); 
@@ -75,7 +73,7 @@ input[type="file"] {
     width: 180px;
 }
 
-/* Painel de Ferramentas Lateral (Inspector) */
+/* Painel de Ferramentas Lateral */
 #toolbar { 
     position: fixed; 
     right: 15px; 
@@ -88,7 +86,7 @@ input[type="file"] {
     backdrop-filter: blur(20px);
     display: flex; 
     flex-direction: column; 
-    gap: 16px; 
+    gap: 20px; /* Aumentado para separar melhor os grupos */
     z-index: 90; 
     box-shadow: 0 8px 32px rgba(0,0,0,0.4);
 }
@@ -99,6 +97,13 @@ input[type="file"] {
     gap: 10px;
 }
 
+/* Estilo para o grupo de exportação (na parte de baixo) */
+.export-group {
+    margin-top: 10px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
 .label-small {
     font-size: 9px;
     color: var(--text-dim);
@@ -107,7 +112,6 @@ input[type="file"] {
     letter-spacing: 1px;
 }
 
-/* Botões Estilizados */
 .tool-btn { 
     background: #29292e; 
     border: 1px solid var(--border-color); 
@@ -132,14 +136,28 @@ input[type="file"] {
     transform: scale(0.96);
 }
 
-/* Grid de Rotação */
-.rotation-grid {
+/* Botão de Exportação Especial */
+.export-btn {
+    background: rgba(0, 168, 255, 0.05);
+    border-color: rgba(0, 168, 255, 0.2);
+}
+
+.export-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+/* Grid de Rotação e Exportação */
+.rotation-grid, .export-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 6px;
 }
 
-/* Input de Rotação */
+.export-grid {
+    grid-template-columns: 1fr 1fr; /* OBJ e FBX lado a lado */
+}
+
 input[type="number"] {
     background: #121214;
     border: 1px solid var(--border-color);
@@ -154,21 +172,11 @@ input[type="number"] {
     box-sizing: border-box;
 }
 
-input[type="number"]:focus {
-    border-color: var(--accent);
-    background: #000;
-}
-
-/* Botões de Eixo Coloridos */
 .btn-x { border-left: 4px solid var(--axis-x) !important; }
 .btn-y { border-left: 4px solid var(--axis-y) !important; }
 .btn-z { border-left: 4px solid var(--axis-z) !important; }
 
-.btn-x:hover { background: rgba(255, 71, 87, 0.15); }
-.btn-y:hover { background: rgba(46, 213, 115, 0.15); }
-.btn-z:hover { background: rgba(30, 144, 255, 0.15); }
-
-/* Barra de Status Inferior */
+/* Status Inferior */
 #status-container { 
     position: fixed; 
     bottom: 25px; 
@@ -191,7 +199,6 @@ input[type="number"]:focus {
     font-weight: 800; 
     color: var(--accent);
     margin-bottom: 8px;
-    text-transform: uppercase;
 }
 
 #progress-bg { 
@@ -207,18 +214,15 @@ input[type="number"]:focus {
     height: 100%; 
     background: var(--accent); 
     box-shadow: 0 0 15px var(--accent); 
-    transition: width 0.4s ease;
 }
 
-/* Ajustes para Celular */
 @media (max-width: 600px) {
     #ui { padding: 8px 12px; }
-    #toolbar { 
-        width: 130px; 
-        right: 10px; 
-        top: 60px;
-        padding: 10px;
-    }
+    #toolbar { width: 140px; right: 10px; top: 60px; padding: 12px; }
     input[type="file"] { width: 120px; }
-    h3 { font-size: 9px; letter-spacing: 1px; }
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.2);
 }
