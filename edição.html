@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Universal Mesh Editor PRO - Edição</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        #editor-sidebar {
+            position: fixed;
+            left: 15px;
+            top: 70px;
+            width: 200px;
+            max-height: 80vh;
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            z-index: 95;
+        }
+        .object-item {
+            background: rgba(255,255,255,0.05);
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid transparent;
+            cursor: pointer;
+            margin-bottom: 4px;
+        }
+        .object-item.selected {
+            border-color: var(--accent);
+            background: rgba(0, 168, 255, 0.1);
+        }
+        .delete-btn { color: #ff4d4d; font-weight: bold; cursor: pointer; padding: 0 5px; }
+        .transform-input-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
+        .editor-panel { margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; }
+        .increment-setting { background: rgba(0,0,0,0.3); padding: 5px; border-radius: 4px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="ui">
+        <h3>Mesh Editor <span style="color: var(--accent); font-size: 9px;">PRO</span></h3>
+        <div style="display: flex; gap: 10px;">
+            <div class="upload-btn">
+                <input type="file" id="file-import" accept=".mesh,.rbxm,.obj,.gltf,.glb" multiple>
+            </div>
+            <button class="tool-btn" onclick="location.href='index.html'" style="background: #444;">VOLTAR</button>
+        </div>
+    </div>
+
+    <div id="editor-sidebar">
+        <span class="label-small">Hierarchy</span>
+        <div id="object-list">
+            <div class="status-msg" style="font-size: 10px; color: var(--text-dim);">Aguardando arquivos...</div>
+        </div>
+    </div>
+
+    <div id="toolbar">
+        
+        <div class="tool-group">
+            <span class="label-small">Modo de Edição</span>
+            <div class="rotation-grid" style="margin-bottom: 10px;">
+                <button class="tool-btn" id="btn-move" onclick="setEditorMode('translate')">MOVER</button>
+                <button class="tool-btn" id="btn-rotate" onclick="setEditorMode('rotate')">GIRAR</button>
+                <button class="tool-btn" id="btn-scale" onclick="setEditorMode('scale')">ESCALA</button>
+            </div>
+
+            <div class="increment-setting">
+                <span class="label-small" style="font-size: 8px; opacity: 0.7;">PASSO (INCREMENTO):</span>
+                <input type="number" id="snap-value" value="0.1" step="0.1" style="width: 100%;" oninput="updateSnap()">
+            </div>
+        </div>
+
+        <div id="panel-move" class="editor-panel">
+            <span class="label-small" style="color: var(--axis-y)">Posição (X, Y, Z)</span>
+            <div class="transform-input-group">
+                <input type="number" id="pos-x" step="0.1" oninput="updateFromInputs()">
+                <input type="number" id="pos-y" step="0.1" oninput="updateFromInputs()">
+                <input type="number" id="pos-z" step="0.1" oninput="updateFromInputs()">
+            </div>
+        </div>
+
+        <div id="panel-rotate" class="editor-panel" style="display:none">
+            <span class="label-small" style="color: var(--axis-x)">Rotação (Graus)</span>
+            <div class="transform-input-group">
+                <input type="number" id="rot-x" step="1" oninput="updateFromInputs()">
+                <input type="number" id="rot-y" step="1" oninput="updateFromInputs()">
+                <input type="number" id="rot-z" step="1" oninput="updateFromInputs()">
+            </div>
+        </div>
+
+        <div id="panel-scale" class="editor-panel" style="display:none">
+            <span class="label-small" style="color: var(--axis-z)">Escala</span>
+            <div class="transform-input-group">
+                <input type="number" id="scale-x" step="0.1" oninput="updateFromInputs()">
+                <input type="number" id="scale-y" step="0.1" oninput="updateFromInputs()">
+                <input type="number" id="scale-z" step="0.1" oninput="updateFromInputs()">
+            </div>
+        </div>
+
+        <div class="tool-group" style="margin-top: 15px;">
+            <span class="label-small">Aparência</span>
+            <input type="color" id="obj-color" oninput="updateObjectColor(this.value)" style="width:100%; height: 30px; cursor: pointer;">
+        </div>
+
+        <div class="save-section" style="margin-top: 20px;">
+            <span class="label-small">Exportar Projeto</span>
+            <input type="text" id="file-name-input" placeholder="Nome do arquivo..." style="width: 100%; margin-bottom: 8px; background: #000; border: 1px solid var(--border-color); color: #fff; padding: 5px;">
+            <div class="export-grid" style="display: flex; gap: 5px;">
+                <button class="tool-btn export-btn" style="flex:1" onclick="mergeAndExport('obj')">OBJ</button>
+                <button class="tool-btn export-btn" style="flex:1" onclick="mergeAndExport('gltf')">GLTF</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="status-container">
+        <div id="status">Editor Pronto</div>
+        <div id="progress-bg"><div id="progress-bar"></div></div>
+    </div>
+
+    <script type="importmap">
+    { 
+        "imports": { 
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js", 
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" 
+        } 
+    }
+    </script>
+    <script type="module" src="editor.js"></script>
+</body>
+</html>

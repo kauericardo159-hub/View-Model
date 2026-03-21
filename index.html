@@ -20,6 +20,14 @@
     <div id="toolbar">
         
         <div class="tool-group">
+            <span class="label-small">Ferramentas Pro</span>
+            <button class="tool-btn" onclick="location.href='edição.html'" 
+                    style="background: var(--accent); color: #fff; border: none; box-shadow: 0 4px 10px rgba(0, 168, 255, 0.3);">
+                MODO EDIÇÃO 🛠️
+            </button>
+        </div>
+
+        <div class="tool-group">
             <span class="label-small">Visualização</span>
             <button class="tool-btn" onclick="toggleWireframe()">WIREFRAME</button>
             
@@ -76,6 +84,16 @@
         } 
     }
     </script>
+    
+    <script>
+    // Altere para false quando quiser liberar o site novamente
+    const emManutencao = true; 
+
+    if (emManutencao) {
+        window.location.href = "manutencao.html";
+    }
+</script>
+
     
     <script type="module" src="main.js"></script>
 </body>
