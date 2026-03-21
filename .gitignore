@@ -1,0 +1,23 @@
+# Pastas de dependências (caso use npm no futuro)
+node_modules/
+dist/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Configurações de editores (VS Code, Sublime, etc)
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs e arquivos temporários
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+
+# Arquivos de backup de editores
+*.bak
+*.swp
