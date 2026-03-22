@@ -39,9 +39,13 @@ Se desejar rodar o projeto localmente:
    ```bash
    git clone [https://github.com/kauericardo159-hub/View-Model.git](https://github.com/kauericardo159-hub/View-Model.git)
 
-<p align="left">
-  <img src="preview.png" alt="Texto Alternativo" width="300"> <p align="right">
-  <img src="preview.png" alt="Texto Alternativo" width="300">
-</p>
-
-</p>
+<table border="0">
+  <tr>
+    <td>
+      <img src="preview.png" alt="Preview 1" width="300">
+    </td>
+    <td>
+      <img src="preview2.png" alt="Preview 2" width="300">
+    </td>
+  </tr>
+</table>
