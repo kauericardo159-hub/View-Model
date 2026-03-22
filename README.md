@@ -40,8 +40,8 @@ Se desejar rodar o projeto localmente:
    git clone [https://github.com/kauericardo159-hub/View-Model.git](https://github.com/kauericardo159-hub/View-Model.git)
 
 <p align="left">
-  <img src="preview.png" alt="Texto Alternativo" width="500"> <p align="right">
-  <img src="preview.png" alt="Texto Alternativo" width="500">
+  <img src="preview.png" alt="Texto Alternativo" width="300"> <p align="right">
+  <img src="preview.png" alt="Texto Alternativo" width="300">
 </p>
 
 </p>
