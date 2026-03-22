@@ -39,4 +39,5 @@ Se desejar rodar o projeto localmente:
    ```bash
    git clone [https://github.com/kauericardo159-hub/View-Model.git](https://github.com/kauericardo159-hub/View-Model.git)
 
-![Texto Alternativo](preview.png)
+<img src="preview.png" alt="Texto Alternativo" width="500">
+
