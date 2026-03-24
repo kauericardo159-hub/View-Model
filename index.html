@@ -2,79 +2,242 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Universal Mesh Engine PRO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Universal Mesh Engine PRO | v2.5</title>
+    
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-glass: rgba(10, 12, 16, 0.85);
+            --border-pro: rgba(255, 255, 255, 0.08);
+            --accent-blue: #00a8ff;
+            --accent-green: #2ecc71;
+            --accent-red: #ff4d4d;
+            --ui-corner: 14px;
+            --shadow-glow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            overflow: hidden;
+            background: #020202;
+            font-family: 'Inter', sans-serif;
+            color: #e0e0e0;
+            height: 100%;
+        }
+
+        /* HUD Superior */
+        #top-hud {
+            position: absolute;
+            top: 20px; left: 20px; right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .engine-badge {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            padding: 12px 24px;
+            border-radius: var(--ui-corner);
+            border: 1px solid var(--border-pro);
+            display: flex; align-items: center; gap: 15px;
+            pointer-events: auto;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .status-dot {
+            width: 10px; height: 10px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--accent-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .engine-badge h1 {
+            font-size: 13px; margin: 0; letter-spacing: 2px; font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Área de Importação */
+        .import-zone {
+            display: flex; gap: 10px; pointer-events: auto;
+        }
+
+        .btn-main {
+            background: var(--accent-blue);
+            color: #000;
+            padding: 10px 20px;
+            border-radius: var(--ui-corner);
+            font-weight: 800; font-size: 11px;
+            cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none; box-shadow: 0 4px 15px rgba(0, 168, 255, 0.3);
+            text-transform: uppercase;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 168, 255, 0.5);
+            filter: brightness(1.1);
+        }
+
+        /* Sidebar Avançada */
+        #sidebar {
+            position: absolute;
+            right: 20px; top: 100px;
+            width: 200px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid var(--border-pro);
+            padding: 20px;
+            display: flex; flex-direction: column; gap: 20px;
+            z-index: 100;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .tool-section { display: flex; flex-direction: column; gap: 10px; }
+
+        .group-label {
+            font-size: 10px; color: #666; 
+            text-transform: uppercase; letter-spacing: 2px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+        }
+
+        .tool-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-pro);
+            border-radius: 12px;
+            color: #fff; padding: 12px;
+            font-size: 10px; font-weight: 600;
+            cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+
+        .tool-btn:hover {
+            background: rgba(0, 168, 255, 0.1);
+            border-color: var(--accent-blue);
+        }
+
+        /* Footer Status */
+        #footer-hud {
+            position: absolute;
+            bottom: 30px; left: 50%;
+            transform: translateX(-50%);
+            width: 340px;
+            background: var(--bg-glass);
+            padding: 15px;
+            border-radius: 20px;
+            border: 1px solid var(--border-pro);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        #status-msg {
+            font-size: 10px; margin-bottom: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-blue);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .progress-track {
+            height: 6px; background: rgba(255,255,255,0.05);
+            border-radius: 10px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        #progress-bar {
+            width: 0%; height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), #00ffff);
+            box-shadow: 0 0 15px var(--accent-blue);
+            transition: width 0.4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+
+        @media (max-width: 768px) {
+            #sidebar { width: 160px; right: 10px; top: 90px; }
+            #footer-hud { width: 80%; }
+        }
+    </style>
 </head>
 <body>
+    <script src="manutencao.js"></script>
 
-    <div id="ui">
-        <h3>Universal Mesh Engine</h3>
-        <div class="upload-btn">
-            <input type="file" id="file" accept=".mesh,.rbxm">
+    <header id="top-hud">
+        <div class="engine-badge">
+            <div class="status-dot"></div>
+            <h1>UNIVERSAL ENGINE <span style="color: var(--accent-blue)">PRO v2.5</span></h1>
         </div>
-    </div>
-
-    <div id="toolbar">
         
-        <div class="tool-group">
-            <span class="label-small">Ferramentas Pro</span>
-            <button class="tool-btn" onclick="location.href='edição.html'" 
-                    style="background: var(--accent); color: #fff; border: none; box-shadow: 0 4px 10px rgba(0, 168, 255, 0.3);">
-                MODO EDIÇÃO 🛠️
+        <div class="import-zone">
+            <label for="file" class="btn-main">
+                IMPORT .MESH / .RBXM
+                <input type="file" id="file" accept=".mesh,.rbxm" hidden>
+            </label>
+        </div>
+    </header>
+
+    <aside id="sidebar">
+        <div class="tool-section">
+            <span class="group-label">Core System</span>
+            <button class="tool-btn" onclick="location.href='edição.html'">
+                EDITOR MODE <span>🛠️</span>
             </button>
         </div>
 
-        <div class="tool-group">
-            <span class="label-small">Visualização</span>
-            <button class="tool-btn" onclick="toggleWireframe()">WIREFRAME</button>
-            
-            <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 4px; border: 1px solid var(--border-color);">
-                <span class="label-small" style="font-size: 8px; flex-shrink: 0;">COR:</span>
-                <input type="color" id="color-picker" value="#999999" oninput="changeModelColor(this.value)" 
-                       style="width: 100%; height: 20px; border: none; background: none; cursor: pointer; padding: 0;">
+        <div class="tool-section">
+            <span class="group-label">Renderer</span>
+            <button class="tool-btn" onclick="toggleWireframe()">
+                WIREFRAME <span>🌐</span>
+            </button>
+            <div style="display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 10px;">
+                <span class="group-label" style="font-size: 8px;">COLOR</span>
+                <input type="color" id="color-picker" value="#00a8ff" oninput="changeModelColor(this.value)" 
+                       style="flex-grow: 1; height: 25px; border-radius: 4px; border: none; background: none; cursor: pointer;">
             </div>
         </div>
 
-        <div class="tool-group">
-            <span class="label-small">Rotação (Graus)</span>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-                <input type="number" id="rot-val" value="90" step="1" oninput="updateRotateStep(this.value)" placeholder="90°">
+        <div class="tool-section">
+            <span class="group-label">Transform</span>
+            <div style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 12px; display: flex; flex-direction: column; gap: 8px;">
+                <input type="number" id="rot-val" value="90" step="1" oninput="updateRotateStep(this.value)" 
+                       style="width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border-pro); color: var(--accent-blue); font-family: 'JetBrains Mono'; font-size: 12px; outline: none;">
                 
-                <div class="rotation-grid">
-                    <button class="tool-btn btn-x" onclick="rotateModel('x')">ROTATE X</button>
-                    <button class="tool-btn btn-y" onclick="rotateModel('y')">ROTATE Y</button>
-                    <button class="tool-btn btn-z" onclick="rotateModel('z')">ROTATE Z</button>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px;">
+                    <button class="tool-btn" onclick="rotateModel('x')" style="justify-content: center; color: var(--accent-red);">X</button>
+                    <button class="tool-btn" onclick="rotateModel('y')" style="justify-content: center; color: var(--accent-green);">Y</button>
+                    <button class="tool-btn" onclick="rotateModel('z')" style="justify-content: center; color: var(--accent-blue);">Z</button>
                 </div>
             </div>
         </div>
 
-        <div class="tool-group export-group">
-            <span class="label-small">Exportar</span>
-            <div class="export-grid">
-                <button class="tool-btn export-btn" onclick="exportModel('obj')">OBJ</button>
-                <button class="tool-btn export-btn" onclick="exportModel('gltf')">GLTF</button>
+        <div class="tool-section">
+            <span class="group-label">Industrial Export</span>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <button class="tool-btn" onclick="exportModel('obj')" style="justify-content: center;">OBJ</button>
+                <button class="tool-btn" onclick="exportModel('gltf')" style="justify-content: center;">GLTF</button>
             </div>
         </div>
+    </aside>
 
-        <div class="tool-group" style="margin-top: 5px; border-top: 1px solid var(--border-color); padding-top: 10px;">
-            <span class="label-small">Info Eixos</span>
-            <div style="font-size: 9px; color: var(--text-dim); display: flex; gap: 8px; font-weight: 800;">
-                <span style="color: var(--axis-x)">X</span>
-                <span style="color: var(--axis-y)">Y</span>
-                <span style="color: var(--axis-z)">Z</span>
-            </div>
-        </div>
-    </div>
-
-    <div id="status-container">
-        <div id="status">Aguardando Arquivo...</div>
-        <div id="progress-bg">
+    <footer id="footer-hud">
+        <div id="status-msg">SYSTEM_READY // WAITING_FOR_INPUT</div>
+        <div class="progress-track">
             <div id="progress-bar"></div>
         </div>
-    </div>
+    </footer>
 
     <script type="importmap">
     { 
@@ -84,16 +247,6 @@
         } 
     }
     </script>
-    
-    <script>
-    // Altere para false quando quiser liberar o site novamente
-    const emManutencao = true; 
-
-    if (emManutencao) {
-        window.location.href = "manutencao.html";
-    }
-</script>
-
     
     <script type="module" src="main.js"></script>
 </body>

@@ -18,40 +18,6 @@ Desenvolvida com a tecnologia **Three.js R160**, a engine oferece uma interface 
 
 ---
 
-### 📊 Telemetria do Repositório (Live Analytics)
-> Dados extraídos em tempo real diretamente do motor de renderização e logs de desenvolvimento do projeto **View-Model**.
-
-<div align="center">
-  <table style="border: none; border-collapse: collapse; background: transparent;">
-    <tr>
-      <td><img src="https://img.shields.io/github/repo-size/kauericardo159-hub/View-Model?style=for-the-badge&logo=github&color=00a8ff&label=TAMANHO%20DO%20MOTOR" alt="Repo Size"></td>
-      <td><img src="https://img.shields.io/github/languages/top/kauericardo159-hub/View-Model?style=for-the-badge&logo=javascript&color=f1c40f&label=LINGUAGEM%20BASE" alt="Top Lang"></td>
-    </tr>
-    <tr>
-      <td><img src="https://img.shields.io/github/last-commit/kauericardo159-hub/View-Model?style=for-the-badge&logo=git&color=2ecc71&label=ÚLTIMO%20SYNC" alt="Last Commit"></td>
-      <td><img src="https://img.shields.io/github/commit-activity/m/kauericardo159-hub/View-Model?style=for-the-badge&logo=activity&color=8e44ad&label=ATIVIDADE" alt="Activity"></td>
-    </tr>
-  </table>
-</div>
-
----
-
-### 📡 Status de Integridade (Automático)
-Monitoramento global dos módulos da Engine. Se algum serviço falhar ou entrar em manutenção técnica, os indicadores abaixo reportarão o estado atual:
-
-* **Deployment Status:** ![Pages Build](https://img.shields.io/github/deployments/kauericardo159-hub/View-Model/github-pages?style=flat-square&label=ESTADO%20DO%20SERVIDOR&logo=github)
-* **Open Issues:** ![Open Issues](https://img.shields.io/github/issues/kauericardo159-hub/View-Model?style=flat-square&color=eb4d4b&label=ALERTAS%20DE%20BUG&logo=github)
-* **License Sync:** ![License](https://img.shields.io/github/license/kauericardo159-hub/View-Model?style=flat-square&color=636e72&label=LICENÇA%20VERIFICADA)
-
-### 📈 Gráfico de Atividade do Código
-Análise visual da evolução do repositório **View-Model**, mostrando o balanço entre as tecnologias aplicadas (HTML, CSS, JS):
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=kauericardo159-hub&repo=View-Model&layout=compact&theme=tokyonight&hide_border=true&title_color=00a8ff" width="450">
-</p>
-
----
-
 ### 👑 Corpo de Desenvolvedores Verificados
 > Contribuidores oficiais com autenticação direta do repositório **View-Model**.
 
@@ -85,8 +51,70 @@ Análise visual da evolução do repositório **View-Model**, mostrando o balan�
 
 ---
 
-### 🚀 Engine Deployment & Live Access
-> Acesse a interface de produção da **Universal Mesh Engine PRO** e monitore a integridade do sistema em tempo real.
+### 📊 Telemetria do Repositório (Live Analytics)
+> Dados extraídos em tempo real diretamente do motor de renderização e logs de desenvolvimento do projeto **View-Model**.
+
+<div align="center">
+  <table style="border: none; border-collapse: collapse; background: transparent;">
+    <tr>
+      <td><img src="https://img.shields.io/github/repo-size/kauericardo159-hub/View-Model?style=for-the-badge&logo=github&color=00a8ff&label=TAMANHO%20DO%20MOTOR" alt="Repo Size"></td>
+      <td><img src="https://img.shields.io/github/languages/top/kauericardo159-hub/View-Model?style=for-the-badge&logo=javascript&color=f1c40f&label=LINGUAGEM%20BASE" alt="Top Lang"></td>
+    </tr>
+    <tr>
+      <td><img src="https://img.shields.io/github/last-commit/kauericardo159-hub/View-Model?style=for-the-badge&logo=git&color=2ecc71&label=ÚLTIMO%20SYNC" alt="Last Commit"></td>
+      <td><img src="https://img.shields.io/github/commit-activity/m/kauericardo159-hub/View-Model?style=for-the-badge&logo=activity&color=8e44ad&label=ATIVIDADE" alt="Activity"></td>
+    </tr>
+  </table>
+</div>
+
+---
+
+​📡 Painel de Telemetria & Integridade (Real-Time)
+​O ecossistema da Universal Mesh Engine é monitorado por protocolos automatizados. Abaixo, o status em tempo real da infraestrutura de produção:
+​<div align="center">
+<table style="width: 100%; border-collapse: collapse; background: #0d1117; border: 1px solid #30363d; border-radius: 12px; overflow: hidden;">
+<tr style="background: #161b22;">
+<th align="left" style="padding: 12px; color: #8b949e; font-family: 'JetBrains Mono', monospace; font-size: 12px;">MÓDULO CRÍTICO</th>
+<th align="center" style="padding: 12px; color: #8b949e; font-family: 'JetBrains Mono', monospace; font-size: 12px;">STATUS OPERACIONAL</th>
+<th align="right" style="padding: 12px; color: #8b949e; font-family: 'JetBrains Mono', monospace; font-size: 12px;">PROTOCOLO</th>
+</tr>
+<tr>
+<td style="padding: 15px;"><b>Rede de Distribuição (CDN)</b></td>
+<td align="center"><img src="https://img.shields.io/github/deployments/kauericardo159-hub/View-Model/github-pages?style=for-the-badge&label=LIVE&logo=github&color=2ecc71" alt="Deploy"></td>
+<td align="right"><code>HTTPS/TLS 1.3</code></td>
+</tr>
+<tr>
+<td style="padding: 15px;"><b>Depuração de Kernel (Bugs)</b></td>
+<td align="center"><img src="https://img.shields.io/github/issues/kauericardo159-hub/View-Model?style=for-the-badge&color=eb4d4b&label=INCIDENTES&logo=github" alt="Issues"></td>
+<td align="right"><code>Core_Log_v2</code></td>
+</tr>
+<tr>
+<td style="padding: 15px;"><b>Conformidade Jurídica</b></td>
+<td align="center"><img src="https://img.shields.io/github/license/kauericardo159-hub/View-Model?style=for-the-badge&color=636e72&label=LICENÇA" alt="License"></td>
+<td align="right"><code>MIT_Standard</code></td>
+</tr>
+<tr>
+<td style="padding: 15px;"><b>Última Atualização</b></td>
+<td align="center"><img src="https://img.shields.io/github/last-commit/kauericardo159-hub/View-Model?style=for-the-badge&color=00a8ff&label=BUILD%20SYNC&logo=git" alt="Last Commit"></td>
+<td align="right"><code>Git_Master</code></td>
+</tr>
+</table>
+</div>
+​[!NOTE]
+Automação de Diagnóstico: Os indicadores acima são atualizados a cada 60 segundos via GitHub API. Se o indicador INCIDENTES estiver acima de zero, a equipe de desenvolvimento já foi notificada via webhook.
+
+---
+### 📈 Gráfico de Atividade do Código
+Análise visual da evolução do repositório **View-Model**, mostrando o balanço entre as tecnologias aplicadas (HTML, CSS, JS):
+
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=kauericardo159-hub&repo=View-Model&layout=compact&theme=tokyonight&hide_border=true&title_color=00a8ff" width="450">
+</p>
+
+---
+
+### 🚀 Engine Deployment & Live Status
+> Monitore a integridade dos módulos e o estado de implantação da **Universal Mesh Engine PRO** em tempo real.
 
 <div align="center">
   <br>
@@ -94,42 +122,45 @@ Análise visual da evolução do repositório **View-Model**, mostrando o balan�
     <img src="https://img.shields.io/badge/ABRIR_UNIVERSAL_MESH_ENGINE-00a8ff?style=for-the-badge&logo=rocket&logoColor=white" height="45">
   </a>
   <br><br>
-  <code style="background: #161b22; color: #00a8ff; padding: 10px; border-radius: 10px; border: 1px solid #30363d;">
-    📡 Host: kauericardo159-hub.github.io/View-Model/
-  </code>
 </div>
 
-<br>
-
 #### 📡 Painel de Controle de Manutenção (Live)
-O sistema abaixo reflete o estado atual dos módulos críticos. Se um módulo estiver em manutenção, o selo mudará automaticamente para **WARNING** ou **OFFLINE**.
+O status abaixo é atualizado automaticamente via **GitHub Actions** e testes de conectividade.
 
 <div align="center">
-<table style="border: 2px solid #30363d; border-radius: 20px; border-collapse: separate; border-spacing: 10px; background: #0d1117; width: 85%;">
-  <tr>
-    <th align="left" style="color: #8b949e;">Módulo de Extensão</th>
-    <th align="center" style="color: #8b949e;">Status Atual</th>
-    <th align="right" style="color: #8b949e;">Uptime</th>
-  </tr>
-  <tr>
-    <td align="left"><b>Core Renderer (WebGL)</b></td>
-    <td align="center"><img src="https://img.shields.io/badge/OPERACIONAL-2ecc71?style=flat-square" alt="Online"></td>
-    <td align="right"><code>99.9%</code></td>
-  </tr>
-  <tr>
-    <td align="left"><b>Manipulação de Eixos (Gizmos)</b></td>
-    <td align="center"><img src="https://img.shields.io/badge/MANUTENÇÃO-f1c40f?style=flat-square" alt="Maintenance"></td>
-    <td align="right"><code>--</code></td>
-  </tr>
-  <tr>
-    <td align="left"><b>Exportador unificado (OBJ/GLTF)</b></td>
-    <td align="center"><img src="https://img.shields.io/badge/ESTÁVEL-2ecc71?style=flat-square" alt="Stable"></td>
-    <td align="right"><code>100%</code></td>
-  </tr>
+<table style="border: 2px solid #30363d; border-radius: 20px; border-collapse: separate; border-spacing: 10px; background: #0d1117; width: 95%;">
+  <thead>
+    <tr>
+      <th align="left" style="color: #8b949e;">Indicador de Sistema</th>
+      <th align="center" style="color: #8b949e;">Status em Tempo Real</th>
+      <th align="right" style="color: #8b949e;">Verificação</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="left"><b>📡 Link de Produção</b></td>
+      <td align="center">
+        <img src="https://img.shields.io/website?down_color=red&down_message=OFFLINE&label=CONEX%C3%83O&up_color=2ecc71&up_message=EST%C3%81VEL&url=https%3A%2F%2Fkauericardo159-hub.github.io%2FView-Model%2F" alt="Link Status">
+      </td>
+      <td align="right"><code>Ping Live</code></td>
+    </tr>
+    <tr>
+      <td align="left"><b>🛠️ Estado de Manutenção</b></td>
+      <td align="center">
+        <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/kauericardo159-hub/View-Model/main/status.json" alt="Maintenance Status">
+      </td>
+      <td align="right"><code>Auto-Check</code></td>
+    </tr>
+    <tr>
+      <td align="left"><b>📦 Core Renderer</b></td>
+      <td align="center">
+        <img src="https://img.shields.io/github/actions/workflow/status/kauericardo159-hub/View-Model/main.yml?label=BUILD&style=flat-square" alt="Build Status">
+      </td>
+      <td align="right"><code>CI/CD</code></td>
+    </tr>
+  </tbody>
 </table>
 </div>
 
-> [!IMPORTANT]
-> **Nota de Manutenção:** Caso encontre o editor em estado de manutenção (badge amarelo), as funções de salvamento em nuvem podem estar temporariamente instáveis para migração de banco de dados.
-
----
+> [!TIP]
+> **Status Automático:** O badge de **Manutenção** é controlado diretamente pelo arquivo `manutencao.js`. Se o sistema detectar o redirecionamento, o badge mudará para `UNDER_MAINTENANCE` em vermelho automaticamente.
