@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2024 Kaue Ricardo
+Copyright (c) 2024 - 2026 Kauê Ricardo & Gabriela Protogen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,3 +20,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+-------------------------------------------------------------------------------
+ADDITIONAL TERMS & PROJECT INTEGRITY:
+-------------------------------------------------------------------------------
+1. TRADEMARK: The name "Universal Mesh Engine PRO" and its associated logos 
+   are trademarks of the project owners. Redistribution of the software 
+   does not grant rights to use these names for commercial purposes without 
+   prior authorization.
+
+2. ATTRIBUTION: Any forks or redistributions must maintain the "Staff & 
+   Contributors" section in the documentation, citing Kauê Ricardo as 
+   Lead Architect and Gabriela Protogen as UI/UX Developer.
+
+3. LIVE STATUS: Modification of the Live Status API links to point to 
+   unauthorized repositories is strictly discouraged to maintain project 
+   transparency.
