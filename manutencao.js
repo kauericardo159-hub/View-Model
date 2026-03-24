@@ -4,7 +4,7 @@
  */
 
 const CONFIG = {
-    isUnderMaintenance: false, // TRUE = Bloqueado | FALSE = Liberado
+    isUnderMaintenance: true, // TRUE = Bloqueado | FALSE = Liberado
     maintenancePage: "manutencao.html"
 };
 
