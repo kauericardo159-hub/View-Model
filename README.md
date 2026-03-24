@@ -1,88 +1,84 @@
-# 🛠️ Universal Mesh Engine PRO
-> **Visualizador e Editor de Malhas 3D de Alta Performance diretamente no Navegador.**
-> Desenvolvido para transformar, editar e unificar arquivos `.mesh` e `.rbxm` com precisão.
+# 🌌 Universal Mesh Engine PRO
+> **Ambiente de Engenharia 3D de Próxima Geração.**
+> Manipulação de malhas, edição de eixos e exportação otimizada.
 
 <p align="center">
-  <a href="https://kauericardo159-hub.github.io/View-Model/">
-    <img src="https://img.shields.io/badge/🟢_ACESSAR_O_SISTEMA-000000?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Acessar Sistema">
-  </a>
+  <img src="https://img.shields.io/github/last-commit/kauericardo159-hub/View-Model?style=for-the-badge&color=00a8ff&label=ÚLTIMA%20ATUALIZAÇÃO" alt="Update">
+  <img src="https://img.shields.io/github/created-at/kauericardo159-hub/View-Model?style=for-the-badge&color=8e44ad&label=PROJETO%20CRIADO" alt="Created">
+  <img src="https://img.shields.io/github/languages/top/kauericardo159-hub/View-Model?style=for-the-badge&color=2ecc71&label=CORE%20LANG" alt="Language">
 </p>
 
 ---
 
-### ⏱️ Linha do Tempo do Projeto (Live)
-As datas abaixo são atualizadas automaticamente pelos servidores do GitHub sempre que o código muda.
-
-<p align="center">
-  <img src="https://img.shields.io/github/created-at/kauericardo159-hub/View-Model?label=Projeto%20Criado%20em&style=for-the-badge&color=8e44ad" alt="Criado em">
-  <img src="https://img.shields.io/github/last-commit/kauericardo159-hub/View-Model?label=Última%20Atualização&style=for-the-badge&color=00a8ff" alt="Última Atualização">
-  <img src="https://img.shields.io/github/repo-size/kauericardo159-hub/View-Model?label=Peso%20do%20Código&style=for-the-badge&color=2ecc71" alt="Tamanho">
-</p>
-
----
-
-### 🟢 Status do Servidor
-| Sistema | Status Atual | Detalhes Técnicos |
+### 📡 Painel de Status do Sistema
+| Módulo | Integridade | Responsável |
 | :--- | :--- | :--- |
-| **Engine Gráfica (View Model)** | ![Online](https://img.shields.io/badge/ONLINE-2ecc71?style=flat-square) | Renderização Three.js estável. |
-| **Modo Edição Avançado** | ![Manutenção](https://img.shields.io/badge/MANUTENÇÃO-f1c40f?style=flat-square) | Sincronizando sistema de Eixos (Gizmos). |
+| **Viewport 3D** | ![Ativo](https://img.shields.io/badge/ATIVO-2ecc71?style=flat-square) | Core Engine |
+| **Gizmos & Edição** | ![Desenvolvimento](https://img.shields.io/badge/DEV_MODE-f1c40f?style=flat-square) | Architecture |
+| **API de Exportação** | ![Online](https://img.shields.io/badge/ONLINE-00a8ff?style=flat-square) | Cloud Sync |
 
 ---
 
-### 👑 Equipe de Desenvolvimento
-Os distribuidores e mentes por trás da arquitetura do projeto.
+### 👑 Corpo de Desenvolvedores (Distribuidores)
+Sistema de molduras com **UICorner** e sincronização de progresso individual.
 
-<table align="center" style="border-collapse: separate; border-spacing: 20px;">
-  <tr>
-    <td align="center" width="350" style="border: 2px solid #00a8ff; padding: 20px; border-radius: 15px; background-color: rgba(0, 168, 255, 0.05);">
-      <a href="https://github.com/kauericardo159-hub">
-        <img src="https://github.com/kauericardo159-hub.png" width="130" height="130" style="border-radius: 50%; border: 4px solid #00a8ff; object-fit: cover;" alt="Kauê Ricardo"/>
-      </a>
-      <br><br>
-      <h3 style="margin: 0; color: #00a8ff;">Kauê Ricardo</h3>
-      <p style="margin: 5px 0;"><b>👑 Lead Developer & Owner</b></p>
-      <a href="https://github.com/kauericardo159-hub"><img src="https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white" alt="GitHub"></a>
-      <hr style="border: 1px solid rgba(0, 168, 255, 0.2);">
-      <p align="left" style="font-size: 14px;">
-        💻 <b>Especialidade:</b> Lógica Core, Three.js, JavaScript Avançado e decodificação de arquivos (.mesh / .rbxm). Responsável pelo motor estrutural do projeto.
-      </p>
-    </td>
+<div align="center">
 
-    <td align="center" width="350" style="border: 2px solid #ff9ff3; padding: 20px; border-radius: 15px; background-color: rgba(255, 159, 243, 0.05);">
-      <a href="https://github.com/gabrielaprotogenofc-rgb">
-        <img src="https://github.com/gabrielaprotogenofc-rgb.png" width="130" height="130" style="border-radius: 50%; border: 4px solid #ff9ff3; object-fit: cover;" alt="Gabriela Protogen"/>
-      </a>
-      <br><br>
-      <h3 style="margin: 0; color: #ff9ff3;">Gabriela Protogen</h3>
-      <p style="margin: 5px 0;"><b>🎨 Co-Developer & UI/UX</b></p>
-      <a href="https://github.com/gabrielaprotogenofc-rgb"><img src="https://img.shields.io/badge/GitHub-100000?style=flat&logo=github&logoColor=white" alt="GitHub"></a>
-      <hr style="border: 1px solid rgba(255, 159, 243, 0.2);">
-      <p align="left" style="font-size: 14px;">
-        ✨ <b>Especialidade:</b> Design de Interface, CSS, Experiência do Usuário e Estruturação Visual. Responsável por deixar o software moderno e intuitivo.
-      </p>
-    </td>
-  </tr>
-</table>
+  <div style="display: inline-block; width: 380px; border: 3px solid #00a8ff; border-radius: 20px; background-color: #0d1117; padding: 20px; margin: 10px; box-shadow: 0 0 15px rgba(0, 168, 255, 0.4); vertical-align: top;">
+    <a href="https://github.com/kauericardo159-hub">
+      <img src="https://github.com/kauericardo159-hub.png" width="120" style="border-radius: 50%; border: 4px solid #00a8ff;" alt="Kauê"/>
+    </a>
+    <h2 style="color: #00a8ff; margin-bottom: 5px;">KAUÊ RICARDO</h2>
+    <p style="color: #ffffff; font-size: 11px; letter-spacing: 2px;"><b>CHIEF ARCHITECT & OWNER</b></p>
+    <hr style="border: 0.1px solid #30363d; margin: 15px 0;">
+    <div align="left" style="font-size: 13px; color: #8b949e;">
+      🔹 <b>Foco:</b> Estrutura Three.js e Buffers.<br>
+      🔹 <b>Repositório:</b> View-Model Core.
+    </div>
+    <br>
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=kauericardo159-hub&layout=compact&theme=tokyonight&hide_border=true&langs_count=2" width="100%">
+  </div>
 
+  <div style="display: inline-block; width: 380px; border: 3px solid #ff00ff; border-radius: 20px; background-color: #0d1117; padding: 20px; margin: 10px; box-shadow: 0 0 15px rgba(255, 0, 255, 0.4); vertical-align: top;">
+    <a href="https://github.com/gabrielaprotogenofc-rgb">
+      <img src="https://github.com/gabrielaprotogenofc-rgb.png" width="120" style="border-radius: 50%; border: 4px solid #ff00ff;" alt="Gabriela"/>
+    </a>
+    <h2 style="color: #ff00ff; margin-bottom: 5px;">GABRIELA PROTOGEN</h2>
+    <p style="color: #ffffff; font-size: 11px; letter-spacing: 2px;"><b>UI DESIGNER & CO-DEV</b></p>
+    <hr style="border: 0.1px solid #30363d; margin: 15px 0;">
+    <div align="left" style="font-size: 13px; color: #8b949e;">
+      🔹 <b>Foco:</b> UX responsiva e Estilização.<br>
+      🔹 <b>Repositório:</b> Front-end & Assets.
+    </div>
+    <br>
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=gabrielaprotogenofc-rgb&layout=compact&theme=tokyonight&hide_border=true&langs_count=2" width="100%">
+  </div>
+
+</div>
 ---
 
-### 📊 Estatísticas e Tecnologias
-Análise em tempo real do código que escrevemos no repositório. O gráfico abaixo mostra exatamente quais linguagens estão sendo mais programadas por nós nesta engine:
+### 📈 Estatísticas Gerais do Repositório
+Monitoramento em tempo real da saúde e linguagens do projeto.
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=kauericardo159-hub&repo=View-Model&layout=compact&theme=tokyonight&hide_border=true" alt="Linguagens Mais Usadas" width="400">
-  <img src="https://github-readme-stats.vercel.app/api?username=kauericardo159-hub&repo=View-Model&show_icons=true&theme=tokyonight&hide_border=true" alt="Status Gerais" width="400">
+  <img src="https://github-readme-stats.vercel.app/api/pin/?username=kauericardo159-hub&repo=View-Model&theme=tokyonight&show_owner=true" width="48%">
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=kauericardo159-hub&repo=View-Model&layout=compact&theme=tokyonight&hide_border=true" width="40%">
 </p>
 
 ---
 
-### 💎 Sobre a Engine
-A **Universal Mesh Engine PRO** não é apenas um visualizador. Ela foi arquitetada para:
-- 📦 **Importação Múltipla:** Aceita `.mesh`, `.rbxm`, `.obj` e `.gltf`.
-- 🛠️ **Scene Editor:** Trabalhe com múltiplos objetos ao mesmo tempo (Mover, Girar, Escalar).
-- 💾 **Exportação Inteligente:** Junte várias peças de diferentes formatos e exporte como um único arquivo unificado.
+### 🛠️ Hardware & Software (Specs)
+* **Rendering Engine:** Three.js v0.160.0
+* **Suporte de Arquivos:** .mesh (Binary), .rbxm (XML), .obj, .gltf
+* **Interface:** CSS Grid & Flexbox com foco em Mobile-First
+* **Segurança:** Bloqueio de manutenção via Scripting Layer
 
 ---
-<p align="center" style="font-size: 12px; opacity: 0.7;">
-  Licença MIT © 2026 - Desenvolvido para a comunidade.
+
+### 🔗 Link de Acesso PRO
+> [**LANÇAR UNIVERSAL MESH ENGINE PRO 🚀**](https://kauericardo159-hub.github.io/View-Model/)
+
+<p align="center" style="opacity: 0.4; font-size: 10px; margin-top: 50px;">
+  © 2026 Kauê Ricardo & Gabriela Protogen. <br>
+  Construído para desenvolvedores, por desenvolvedores.
 </p>
